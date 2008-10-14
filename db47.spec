@@ -1,7 +1,7 @@
 # compatibility with legacy rpm
 %{!?_lib:%define _lib	lib}
 
-%define	__soversion	4.6
+%define	__soversion	4.7
 %define	_libdb_a	libdb-%{__soversion}.a
 %define	_libcxx_a	libdb_cxx-%{__soversion}.a
 
@@ -44,18 +44,20 @@
 %{?_without_asmmutex: %global build_asmmutex 0}
 
 Summary:	The Berkeley DB database library for C
-Name:		db46
-Version:	4.6.21
-Release:	%mkrel 19
-Source:		http://download.oracle.com/berkeley-db/db-%{version}.tar.gz
+Name:		db47
+Version:	4.7.25
+Release:	%mkrel 1
+Source0:	http://download.oracle.com/berkeley-db/db-%{version}.tar.gz
 # statically link db1 library
 Patch0:		db-4.2.52-db185.patch
+# openldap patches
+# http://www.openldap.org/devel/cvsweb.cgi/build/db.4.7.25.patch
+Patch50:	db.4.7.25.patch
 # fedora patches
-Patch100:	db-4.6.18-glibc.patch
 Patch101:	db-4.5.20-jni-include-dir.patch
 #Upstream patches
-#Patch200:	http://www.oracle.com/technology/products/berkeley-db/xml/update/4.6.21/patch.4.6.21.1
-Patch200:	db46-update-4.6.21.1.diff
+#Patch200:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.1
+Patch200:	db47-update-4.7.25.1.diff
 URL:		http://www.oracle.com/technology/software/products/berkeley-db/
 License:	BSD
 Group:		System/Libraries
@@ -165,7 +167,7 @@ Conflicts: %{libname_orig}3.3-devel %{libname_orig}4.0-devel
 Conflicts: %{libname_orig}4.1-devel %{libname_orig}4.2-devel
 Conflicts: %{libname_orig}4.3-devel %{libname_orig}4.4-devel
 Conflicts: %{libname_orig}4.5-devel
-Conflicts: %{libname_orig}4.7-devel
+Conflicts: %{libname_orig}4.6-devel
 Provides: db-devel = %{version}-%{release}
 Provides: db4-devel = %{version}-%{release}
 
@@ -189,7 +191,7 @@ Conflicts: %{libname_orig}3.3-static-devel %{libname_orig}4.0-static-devel
 Conflicts: %{libname_orig}4.1-static-devel %{libname_orig}4.2-static-devel
 Conflicts: %{libname_orig}4.3-static-devel %{libname_orig}4.4-static-devel
 Conflicts: %{libname_orig}4.5-static-devel
-Conflicts: %{libname_orig}4.7-static-devel
+Conflicts: %{libname_orig}4.6-static-devel
 Provides: db-static-devel = %{version}-%{release}
 Provides: db4-static-devel = %{version}-%{release}
 
@@ -227,7 +229,7 @@ Provides: %{_lib}dbnss-devel = %{version}-%{release}
 Provides: db_nss-devel = %{version}-%{release}
 Provides: libdb_nss-devel = %{version}-%{release}
 Conflicts: %{libname_orig}nss4.2-devel
-Conflicts: %{libname_orig}nss4.7-devel
+Conflicts: %{libname_orig}nss4.6-devel
 
 %description -n %{libdbnssdev}
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that provides
@@ -250,12 +252,14 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 %{__rm} -r docs/java
 %patch0 -p1 -b .db185
 
+# openldap patches
+%patch50 -p1 -b .openldap
+
 # fedora patches
-%patch100 -p1 -b .glibc
 %patch101 -p1 -b .4.5.20.jni
 
 # upstream patches
-%patch200 -p0 
+%patch200 -p0 -b .sequence
 
 pushd dist
 libtoolize --copy --force
@@ -591,4 +595,3 @@ rm -rf %{buildroot}
 %{_libdir}/libdb_nss-%{__soversion}.la
 %{_libdir}/libdb_nss-%{__soversion}.so
 %endif
-
