@@ -46,18 +46,17 @@
 Summary:	The Berkeley DB database library for C
 Name:		db47
 Version:	4.7.25
-Release:	%mkrel 2
+Release:	%mkrel 3
 Source0:	http://download.oracle.com/berkeley-db/db-%{version}.tar.gz
 # statically link db1 library
 Patch0:		db-4.2.52-db185.patch
-# openldap patches
-# http://www.openldap.org/devel/cvsweb.cgi/build/db.4.7.25.patch
-Patch50:	db.4.7.25.patch
+Patch1:		db-4.7.25-fix-format-errors.patch
 # fedora patches
-Patch101:	db-4.5.20-jni-include-dir.patch
+Patch101:	db-4.7.25-jni-include-dir.patch
 #Upstream patches
-#Patch200:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.1
-Patch200:	db47-update-4.7.25.1.diff
+Patch200:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.1
+Patch201:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.2
+Patch202:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.3
 URL:		http://www.oracle.com/technology/software/products/berkeley-db/
 License:	BSD
 Group:		System/Libraries
@@ -143,6 +142,7 @@ Summary: Command line tools for managing Berkeley DB databases
 Group: Databases
 %if !%{build_parallel}
 Conflicts: db3-utils
+Conflicts: db46-utils
 %endif
 Provides: db4-utils = %{version}-%{release}
 
@@ -251,15 +251,15 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 
 %{__rm} -r docs/java
 %patch0 -p1 -b .db185
-
-# openldap patches
-%patch50 -p1 -b .openldap
+%patch1 -p1 -b .format
 
 # fedora patches
-%patch101 -p1 -b .4.5.20.jni
+%patch101 -p1 -b .jni
 
 # upstream patches
-%patch200 -p0 -b .sequence
+%patch200 -p0 -b .4.7.25.1
+%patch201 -p0 -b .4.7.25.2
+%patch202 -p0 -b .4.7.25.3
 
 pushd dist
 libtoolize --copy --force
