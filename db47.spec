@@ -53,10 +53,12 @@ Patch0:		db-4.2.52-db185.patch
 Patch1:		db-4.7.25-fix-format-errors.patch
 # fedora patches
 Patch101:	db-4.7.25-jni-include-dir.patch
+Patch102:	db-4.7.25-acmacro.patch
 #Upstream patches
 Patch200:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.1
 Patch201:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.2
 Patch202:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.3
+Patch203:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.4
 URL:		http://www.oracle.com/technology/software/products/berkeley-db/
 License:	BSD
 Group:		System/Libraries
@@ -255,11 +257,13 @@ find . -type f -perm 0444 -exec chmod 644 {} \;
 
 # fedora patches
 %patch101 -p1 -b .jni
+%patch102 -p1 -b acmacro
 
 # upstream patches
 %patch200 -p0 -b .4.7.25.1
 %patch201 -p0 -b .4.7.25.2
 %patch202 -p0 -b .4.7.25.3
+%patch203 -p1 -b .4.7.25.4
 
 pushd dist
 libtoolize --copy --force
