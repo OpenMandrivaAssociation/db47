@@ -61,7 +61,7 @@ Patch200:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25
 Patch201:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.2
 Patch202:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.3
 Patch203:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25/patch.4.7.25.4
-URL:		http://www.oracle.com/technology/software/products/berkeley-db/
+URL:		https://www.oracle.com/technology/software/products/berkeley-db/
 License:	BSD
 Group:		System/Libraries
 BuildRequires:	%{!?_without_tcl:tcl-devel} %{!?_without_db1:db1-devel} ed libtool
