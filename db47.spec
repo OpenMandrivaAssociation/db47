@@ -64,6 +64,7 @@ Patch203:	http://www.oracle.com/technology/products/berkeley-db/db/update/4.7.25
 URL:		https://www.oracle.com/technology/software/products/berkeley-db/
 License:	BSD
 Group:		System/Libraries
+BuildRequires:	make
 BuildRequires:	%{!?_without_tcl:tcl-devel} %{!?_without_db1:db1-devel} ed libtool
 %if %with java
 BuildRequires:  java-rpmbuild
